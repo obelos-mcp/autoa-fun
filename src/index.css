@@ -1,0 +1,1685 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 120 100% 2%;
+    --foreground: 120 100% 95%;
+
+    --card: 120 100% 3%;
+    --card-foreground: 120 100% 95%;
+
+    --popover: 120 100% 3%;
+    --popover-foreground: 120 100% 95%;
+
+    --primary: 120 100% 50%;
+    --primary-foreground: 120 100% 2%;
+
+    --secondary: 120 100% 8%;
+    --secondary-foreground: 120 100% 95%;
+
+    --muted: 120 100% 10%;
+    --muted-foreground: 120 100% 70%;
+
+    --accent: 120 100% 15%;
+    --accent-foreground: 120 100% 95%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 120 100% 95%;
+
+    --border: 120 100% 20%;
+    --input: 120 100% 10%;
+    --ring: 120 100% 50%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 120 100% 3%;
+    --sidebar-foreground: 120 100% 95%;
+    --sidebar-primary: 120 100% 50%;
+    --sidebar-primary-foreground: 120 100% 2%;
+    --sidebar-accent: 120 100% 15%;
+    --sidebar-accent-foreground: 120 100% 95%;
+    --sidebar-border: 120 100% 20%;
+    --sidebar-ring: 120 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-black text-green-400;
+    font-family: "Courier New", "Monaco", "Menlo", monospace;
+    background: linear-gradient(135deg, #001a00 0%, #000000 50%, #001a00 100%);
+    position: relative;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        circle at 20% 80%,
+        rgba(0, 255, 0, 0.03) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 20%,
+        rgba(0, 255, 0, 0.03) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 40% 40%,
+        rgba(0, 255, 0, 0.02) 0%,
+        transparent 50%
+      );
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  html {
+    @apply bg-black;
+  }
+
+  /* Matrix-style text selection */
+  ::selection {
+    background: rgba(0, 255, 0, 0.3);
+    color: #00ff00;
+  }
+
+  ::-moz-selection {
+    background: rgba(0, 255, 0, 0.3);
+    color: #00ff00;
+  }
+}
+
+/* Matrix-style animations */
+@keyframes matrix-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+    border-color: rgba(0, 255, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+    border-color: rgba(0, 255, 0, 0.6);
+  }
+}
+
+@keyframes matrix-pulse {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes matrix-rain {
+  0% {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+@keyframes matrix-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes matrix-scan {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes matrix-loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes matrix-pulse-border {
+  0% {
+    border-color: rgba(0, 255, 0, 0.3);
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+  }
+  50% {
+    border-color: rgba(0, 255, 0, 0.6);
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.6);
+  }
+  100% {
+    border-color: rgba(0, 255, 0, 0.3);
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+  }
+}
+
+@keyframes matrix-float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes matrix-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ReactFlow custom styles with Matrix theme */
+.react-flow__node {
+  @apply font-mono shadow-lg backdrop-blur-sm p-4 rounded-xl;
+  border: 1px solid rgba(0, 255, 0, 0.3);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 26, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.95) 100%
+  );
+  color: #00ff00;
+  animation: matrix-glow 3s ease-in-out infinite;
+}
+
+.react-flow__node:hover {
+  border-color: rgba(0, 255, 0, 0.6);
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+.react-flow__node-pdfgenerator {
+  @apply bg-black text-green-400 rounded-xl;
+  border: 1px solid rgba(0, 255, 0, 0.4) !important;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 26, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.95) 100%
+  );
+  padding: 0 !important;
+  min-width: 200px;
+}
+
+/* Matrix-style glass buttons */
+.glass-button {
+  @apply bg-green-500 text-black border border-green-400/50 hover:bg-green-400 transition-all duration-300 font-mono;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+  text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+}
+
+.glass-button:hover {
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+  transform: translateY(-2px);
+  text-shadow: 0 0 8px rgba(0, 255, 0, 0.8);
+}
+
+/* Matrix-style edges */
+.react-flow__edge-path {
+  stroke: #00ff00;
+  stroke-width: 2;
+  filter: drop-shadow(0 0 3px rgba(0, 255, 0, 0.5));
+}
+
+.react-flow__edge.animated .react-flow__edge-path {
+  stroke-dasharray: 5;
+  animation: matrix-pulse 2s linear infinite;
+}
+
+/* Matrix-style glow effects */
+.glow-border {
+  border: 1px solid rgba(0, 255, 0, 0.4);
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+.glow-border-sm {
+  border: 1px solid rgba(0, 255, 0, 0.3);
+  box-shadow: 0 0 5px rgba(0, 255, 0, 0.2);
+}
+
+/* Matrix rain effect */
+.matrix-rain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.matrix-rain::before {
+  content: "01";
+  position: absolute;
+  top: -100vh;
+  left: 0;
+  width: 100%;
+  height: 200vh;
+  background: linear-gradient(transparent, rgba(0, 255, 0, 0.1), transparent);
+  animation: matrix-rain 8s linear infinite;
+  font-family: "Courier New", monospace;
+  font-size: 14px;
+  color: #00ff00;
+  text-shadow: 0 0 5px #00ff00;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* Enhanced responsive design for mobile */
+@media (max-width: 1024px) {
+  .react-flow__node {
+    @apply text-sm p-3;
+    min-width: 280px;
+  }
+
+  .react-flow__controls {
+    @apply scale-90;
+  }
+
+  .react-flow__minimap {
+    @apply scale-90;
+  }
+}
+
+@media (max-width: 768px) {
+  .react-flow__node {
+    @apply text-sm p-2;
+    min-width: 240px;
+    max-width: 300px;
+  }
+
+  .react-flow__controls {
+    @apply scale-75;
+    bottom: 20px !important;
+    left: 10px !important;
+  }
+
+  .react-flow__controls-button {
+    @apply bg-green-900 text-green-400 border-green-600;
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .react-flow__controls-button:hover {
+    @apply bg-green-800 text-green-300;
+  }
+
+  .react-flow__minimap {
+    @apply scale-75;
+    background: rgba(0, 26, 0, 0.8);
+    border: 1px solid rgba(0, 255, 0, 0.3);
+    bottom: 20px !important;
+    right: 10px !important;
+    width: 150px !important;
+    height: 100px !important;
+  }
+
+  .tooltip {
+    @apply text-xs;
+  }
+
+  /* Mobile-specific node adjustments */
+  .matrix-bg-glass {
+    padding: 12px !important;
+  }
+
+  /* Panel adjustments */
+  .react-flow__panel {
+    @apply p-2 text-xs;
+  }
+
+  .react-flow__panel.react-flow__panel-top {
+    top: 10px !important;
+    left: 10px !important;
+    right: 10px !important;
+  }
+
+  .react-flow__panel.react-flow__panel-bottom {
+    bottom: 120px !important;
+    right: 10px !important;
+  }
+
+  /* Form elements mobile optimization */
+  .mobile-form-grid {
+    @apply grid-cols-1 gap-2;
+  }
+
+  .mobile-form-grid.two-cols {
+    @apply grid-cols-2 gap-2;
+  }
+
+  /* Textarea mobile adjustments */
+  .mobile-textarea {
+    @apply min-h-[80px] text-sm;
+  }
+
+  /* Select mobile adjustments */
+  .mobile-select {
+    @apply text-sm;
+  }
+
+  /* Badge mobile adjustments */
+  .mobile-badge {
+    @apply text-xs px-2 py-1;
+  }
+}
+
+@media (max-width: 640px) {
+  .react-flow__node {
+    @apply text-xs p-2;
+    min-width: 220px;
+    max-width: 280px;
+  }
+
+  .node-label {
+    @apply text-xs font-bold;
+  }
+
+  .node-desc {
+    @apply text-xs;
+  }
+
+  .react-flow__controls {
+    transform: scale(0.7);
+    bottom: 15px !important;
+    left: 5px !important;
+  }
+
+  .react-flow__minimap {
+    transform: scale(0.7);
+    bottom: 15px !important;
+    right: 5px !important;
+    width: 120px !important;
+    height: 80px !important;
+  }
+
+  /* Ultra-mobile node adjustments */
+  .matrix-bg-glass {
+    padding: 8px !important;
+  }
+
+  /* Hide some elements on very small screens */
+  .hide-on-mobile {
+    @apply hidden;
+  }
+
+  /* Stack buttons vertically on very small screens */
+  .mobile-button-stack {
+    @apply flex-col gap-1;
+  }
+
+  /* Compact spacing */
+  .mobile-compact {
+    @apply space-y-1;
+  }
+
+  .mobile-compact .mobile-form-grid {
+    @apply gap-1;
+  }
+}
+
+@media (max-width: 480px) {
+  .react-flow__node {
+    @apply text-xs p-1;
+    min-width: 200px;
+    max-width: 240px;
+  }
+
+  .node-label {
+    @apply text-xs font-bold;
+  }
+
+  .node-desc {
+    @apply text-xs;
+  }
+
+  .button-group {
+    @apply flex-col gap-1;
+  }
+
+  /* Extreme mobile optimizations */
+  .react-flow__controls {
+    transform: scale(0.6);
+    bottom: 10px !important;
+    left: 5px !important;
+  }
+
+  .react-flow__minimap {
+    transform: scale(0.6);
+    bottom: 10px !important;
+    right: 5px !important;
+    width: 100px !important;
+    height: 60px !important;
+  }
+
+  /* Ultra-compact node styling */
+  .matrix-bg-glass {
+    padding: 6px !important;
+  }
+
+  /* Ultra-compact forms */
+  .mobile-textarea {
+    @apply min-h-[60px] text-xs;
+  }
+
+  .mobile-select {
+    @apply text-xs;
+  }
+
+  .mobile-badge {
+    @apply text-xs px-1 py-0.5;
+  }
+
+  /* Hide more elements on extreme mobile */
+  .hide-on-tiny {
+    @apply hidden;
+  }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+  .react-flow__node {
+    @apply cursor-pointer;
+  }
+
+  .matrix-button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .react-flow__controls-button {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+
+  /* Larger touch targets */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+
+  /* Better spacing for touch */
+  .touch-spacing {
+    @apply space-y-3;
+  }
+
+  .touch-spacing .mobile-form-grid {
+    @apply gap-3;
+  }
+}
+
+/* Landscape mobile adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+  .node-panel-mobile {
+    @apply h-full w-80 right-0 left-auto top-0 bottom-0 rounded-l-xl rounded-t-none;
+    max-height: 100vh;
+  }
+
+  .react-flow__controls {
+    bottom: 20px !important;
+    left: 20px !important;
+  }
+
+  .react-flow__minimap {
+    bottom: 20px !important;
+    right: 320px !important;
+  }
+}
+
+/* High DPI display adjustments */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .matrix-border {
+    border-width: 0.5px;
+  }
+
+  .react-flow__edge-path {
+    stroke-width: 1.5;
+  }
+}
+
+/* Dark mode mobile adjustments */
+@media (prefers-color-scheme: dark) {
+  .react-flow__controls-button {
+    @apply bg-green-900/80 text-green-400 border-green-600/50;
+  }
+
+  .react-flow__minimap {
+    background: rgba(0, 26, 0, 0.9);
+    border: 1px solid rgba(0, 255, 0, 0.4);
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .matrix-glow,
+  .matrix-pulse,
+  .matrix-rain,
+  .matrix-flicker,
+  .matrix-scan,
+  .matrix-loading,
+  .matrix-pulse-border,
+  .matrix-float,
+  .matrix-shimmer {
+    animation: none;
+  }
+
+  .matrix-hover:hover {
+    transform: none;
+  }
+
+  .react-flow__node:hover {
+    transform: none;
+  }
+}
+
+/* Print styles */
+@media print {
+  .react-flow__controls,
+  .react-flow__minimap,
+  .matrix-rain,
+  .mobile-header {
+    display: none !important;
+  }
+
+  .react-flow__node {
+    border: 1px solid #000 !important;
+    background: #fff !important;
+    color: #000 !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Panel animations */
+.node-panel-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.node-panel-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 300ms ease-in-out;
+}
+
+.node-panel-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.node-panel-exit-active {
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 300ms ease-in-out;
+}
+
+/* Enhanced node styling */
+.react-flow__node {
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.react-flow__node:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(0, 255, 0, 0.3);
+}
+
+/* Pulse border animation */
+@keyframes pulse-border {
+  0% {
+    border-color: rgba(0, 255, 0, 0.3);
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+  }
+  50% {
+    border-color: rgba(0, 255, 0, 0.6);
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.6);
+  }
+  100% {
+    border-color: rgba(0, 255, 0, 0.3);
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+  }
+}
+
+.react-flow__node.selected {
+  animation: pulse-border 2s ease-in-out infinite;
+  border-width: 2px;
+}
+
+/* App title styling */
+.app-title {
+  @apply text-2xl font-bold text-green-400 font-mono;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  letter-spacing: 2px;
+}
+
+@media (max-width: 768px) {
+  .app-title {
+    @apply text-xl;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-title {
+    @apply text-lg;
+  }
+}
+
+/* Controls styling */
+.react-flow__controls {
+  @apply bg-green-900/80 backdrop-blur-sm border border-green-600/50;
+}
+
+.react-flow__controls-button {
+  @apply bg-green-800 text-green-400 border-green-600 hover:bg-green-700 hover:text-green-300;
+  transition: all 0.3s ease;
+}
+
+.react-flow__controls-button:hover {
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+  transform: scale(1.1);
+}
+
+.react-flow__minimap {
+  @apply bg-green-900/50 border border-green-600/50;
+  backdrop-filter: blur(10px);
+}
+
+/* Mobile menu improvements */
+@media (max-width: 768px) {
+  [role="menu"],
+  [role="listbox"] {
+    @apply bg-green-900/95 backdrop-blur-sm border border-green-600/50;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+  }
+}
+
+/* Enhanced button and input styling */
+@media (max-width: 768px) {
+  button,
+  [role="button"] {
+    @apply bg-green-800 text-green-400 border-green-600 hover:bg-green-700;
+    font-family: "Courier New", monospace;
+  }
+
+  input,
+  textarea,
+  select {
+    @apply bg-green-900/50 text-green-400 border-green-600 placeholder-green-600;
+    font-family: "Courier New", monospace;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-green-900/30;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-green-600/50 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-green-500/70;
+}
+
+/* Responsive utilities */
+.container-responsive {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.text-responsive {
+  @apply text-sm sm:text-base lg:text-lg;
+}
+
+.button-responsive {
+  @apply text-xs sm:text-sm lg:text-base px-2 sm:px-3 lg:px-4 py-1 sm:py-2 lg:py-3;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .react-flow__node {
+    border-width: 2px;
+    border-color: #00ff00;
+  }
+
+  .glass-button {
+    border-width: 2px;
+    border-color: #00ff00;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Matrix-style dark glass panels */
+.dark-glass-panel {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 26, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.9) 100%
+  );
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 255, 0, 0.3);
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+}
+
+/* Enhanced Matrix button styles */
+.matrix-button {
+  @apply bg-green-600 text-black border border-green-400 hover:bg-green-500 transition-all duration-300 font-mono;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+  text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.matrix-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 255, 0, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.matrix-button:hover::before {
+  left: 100%;
+}
+
+.matrix-button:hover {
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+  transform: translateY(-2px);
+  text-shadow: 0 0 8px rgba(0, 255, 0, 0.8);
+}
+
+/* Matrix-style input fields */
+.matrix-input {
+  @apply bg-green-900/30 text-green-400 border border-green-600 placeholder-green-600 font-mono;
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.1);
+}
+
+.matrix-input:focus {
+  @apply border-green-400 ring-green-400/50;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+}
+
+/* Matrix-style cards */
+.matrix-card {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 26, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.9) 100%
+  );
+  border: 1px solid rgba(0, 255, 0, 0.3);
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+/* Matrix-style text */
+.matrix-text {
+  @apply text-green-400 font-mono;
+  text-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+}
+
+.matrix-text-glow {
+  @apply text-green-400 font-mono;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+/* Matrix-style borders */
+.matrix-border {
+  border: 1px solid rgba(0, 255, 0, 0.3);
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+}
+
+.matrix-border-glow {
+  border: 1px solid rgba(0, 255, 0, 0.5);
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+}
+
+.matrix-border-b {
+  border-bottom: 1px solid rgba(0, 255, 0, 0.3);
+}
+
+/* Matrix-style backgrounds */
+.matrix-bg {
+  background: linear-gradient(135deg, #001a00 0%, #000000 50%, #001a00 100%);
+}
+
+.matrix-bg-glass {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 26, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.9) 100%
+  );
+  backdrop-filter: blur(10px);
+}
+
+/* Enhanced Matrix-style animations */
+@keyframes matrix-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+    border-color: rgba(0, 255, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+    border-color: rgba(0, 255, 0, 0.6);
+  }
+}
+
+@keyframes matrix-pulse {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes matrix-rain {
+  0% {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+@keyframes matrix-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes matrix-scan {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes matrix-loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes matrix-pulse-border {
+  0% {
+    border-color: rgba(0, 255, 0, 0.3);
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+  }
+  50% {
+    border-color: rgba(0, 255, 0, 0.6);
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.6);
+  }
+  100% {
+    border-color: rgba(0, 255, 0, 0.3);
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+  }
+}
+
+@keyframes matrix-float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes matrix-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Enhanced Matrix-style effects */
+.matrix-flicker {
+  animation: matrix-flicker 3s ease-in-out infinite;
+}
+
+.matrix-scan {
+  position: relative;
+  overflow: hidden;
+}
+
+.matrix-scan::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00ff00, transparent);
+  animation: matrix-scan 2s linear infinite;
+}
+
+.matrix-float {
+  animation: matrix-float 3s ease-in-out infinite;
+}
+
+.matrix-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 255, 0, 0.1),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: matrix-shimmer 2s linear infinite;
+}
+
+/* Enhanced Matrix-style hover effects */
+.matrix-hover {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.matrix-hover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 255, 0, 0.1),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.matrix-hover:hover::before {
+  left: 100%;
+}
+
+.matrix-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 255, 0, 0.3);
+  border-color: rgba(0, 255, 0, 0.6);
+}
+
+/* Enhanced Matrix-style focus effects */
+.matrix-focus:focus {
+  outline: none;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+  border-color: rgba(0, 255, 0, 0.6);
+}
+
+/* Enhanced Matrix-style loading animation */
+.matrix-loading {
+  border: 2px solid rgba(0, 255, 0, 0.3);
+  border-top: 2px solid #00ff00;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: matrix-loading 1s linear infinite;
+}
+
+/* Enhanced Matrix-style progress bars */
+.matrix-progress {
+  background: rgba(0, 255, 0, 0.1);
+  border: 1px solid rgba(0, 255, 0, 0.3);
+  overflow: hidden;
+  position: relative;
+}
+
+.matrix-progress::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 255, 0, 0.1),
+    transparent
+  );
+  animation: matrix-scan 2s linear infinite;
+}
+
+.matrix-progress-bar {
+  background: linear-gradient(90deg, #00ff00, #00cc00);
+  height: 100%;
+  transition: width 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  position: relative;
+  z-index: 1;
+}
+
+/* Enhanced Matrix-style tooltips */
+.matrix-tooltip {
+  background: rgba(0, 26, 0, 0.95);
+  border: 1px solid rgba(0, 255, 0, 0.4);
+  color: #00ff00;
+  font-family: "Courier New", monospace;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+  backdrop-filter: blur(10px);
+  animation: matrix-flicker 2s ease-in-out infinite;
+}
+
+/* Enhanced Matrix-style modals */
+.matrix-modal {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 26, 0, 0.98) 0%,
+    rgba(0, 0, 0, 0.99) 100%
+  );
+  border: 1px solid rgba(0, 255, 0, 0.3);
+  box-shadow: 0 0 40px rgba(0, 255, 0, 0.15);
+  backdrop-filter: blur(20px);
+  /* Removed flickering animation */
+}
+
+/* Responsive modal styles with proper centering */
+.matrix-modal {
+  /* Desktop styles */
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  max-width: 85vw;
+  max-height: 85vh;
+  width: 85vw;
+  height: 85vh;
+  /* Disable all animations to prevent flickering */
+  animation: none !important;
+  transition: none !important;
+  z-index: 50;
+}
+
+/* Ensure dialog overlay is properly positioned */
+[data-radix-dialog-overlay] {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 50 !important;
+  background-color: rgba(0, 0, 0, 0.85) !important;
+  backdrop-filter: blur(8px) !important;
+  /* Disable overlay animations */
+  animation: none !important;
+  transition: opacity 0.2s ease !important;
+}
+
+/* Ensure dialog content is properly centered */
+[data-radix-dialog-content] {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 51 !important;
+  /* Disable content animations */
+  animation: none !important;
+  transition: none !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+
+@media (max-width: 768px) {
+  .matrix-modal {
+    /* Mobile styles */
+    max-width: 95vw;
+    max-height: 90vh;
+    width: 95vw;
+    height: 90vh;
+    border-radius: 20px;
+    border-width: 1px;
+    /* Ensure it stays centered on mobile */
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+
+  [data-radix-dialog-content] {
+    width: 95vw !important;
+    height: 90vh !important;
+    max-width: 95vw !important;
+    max-height: 90vh !important;
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .matrix-modal {
+    /* Ultra-mobile styles */
+    max-width: 98vw;
+    max-height: 95vh;
+    width: 98vw;
+    height: 95vh;
+    border-radius: 16px;
+    padding: 12px;
+    /* Ensure it stays centered on small screens */
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+
+  [data-radix-dialog-content] {
+    width: 98vw !important;
+    height: 95vh !important;
+    max-width: 98vw !important;
+    max-height: 95vh !important;
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+}
+
+/* Disable all modal animations completely */
+.matrix-modal .dialog-content,
+.matrix-modal .dialog-overlay,
+.matrix-modal[data-state="open"],
+.matrix-modal[data-state="closed"],
+.matrix-modal[data-state="open"] .dialog-content,
+.matrix-modal[data-state="closed"] .dialog-content {
+  animation: none !important;
+  transform: translate(-50%, -50%) !important;
+  transition: none !important;
+}
+
+/* Override Radix UI animations and positioning */
+[data-radix-dialog-content],
+[data-radix-dialog-overlay] {
+  animation: none !important;
+  transition: opacity 0.15s ease !important;
+}
+
+/* Force proper positioning for all dialog states */
+[data-radix-dialog-content][data-state="open"],
+[data-radix-dialog-content][data-state="closed"] {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  animation: none !important;
+}
+
+/* Clean modal header */
+.modal-header {
+  border-bottom: 1px solid rgba(0, 255, 0, 0.2);
+  background: rgba(0, 26, 0, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+/* Clean tab styling */
+.clean-tabs {
+  background: rgba(0, 26, 0, 0.2);
+  border: 1px solid rgba(0, 255, 0, 0.2);
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.clean-tab-trigger {
+  background: transparent;
+  border: none;
+  color: rgba(0, 255, 0, 0.7);
+  transition: all 0.2s ease;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.clean-tab-trigger[data-state="active"] {
+  background: rgba(0, 255, 0, 0.15);
+  color: rgb(0, 255, 0);
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+}
+
+.clean-tab-trigger:hover {
+  background: rgba(0, 255, 0, 0.08);
+  color: rgba(0, 255, 0, 0.9);
+}
+
+/* Enhanced Matrix-style dropdowns */
+.matrix-dropdown {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 26, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.98) 100%
+  );
+  border: 1px solid rgba(0, 255, 0, 0.4);
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+  backdrop-filter: blur(10px);
+  animation: none !important;
+}
+
+/* Disable all Radix UI dropdown animations to prevent conflicts */
+.matrix-dropdown[data-state="open"],
+.matrix-dropdown[data-state="closed"],
+.matrix-dropdown[data-side],
+.matrix-dropdown[data-align] {
+  animation: none !important;
+  transform: none !important;
+  transition: opacity 0.15s ease !important;
+}
+
+.matrix-dropdown-item {
+  @apply text-green-400 hover:bg-green-900/50 font-mono;
+  transition: all 0.2s ease;
+  position: relative;
+  animation: none !important;
+}
+
+/* Disable Radix UI item animations */
+.matrix-dropdown-item[data-highlighted],
+.matrix-dropdown-item[data-state] {
+  animation: none !important;
+  transform: none !important;
+}
+
+/* Simplified hover effect without pseudo-elements */
+.matrix-dropdown-item:hover {
+  text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+  background-color: rgba(0, 255, 0, 0.1);
+  border-left: 2px solid rgba(0, 255, 0, 0.6);
+  padding-left: 6px;
+}
+
+/* Enhanced Matrix-style tables */
+.matrix-table {
+  @apply border-collapse;
+  animation: matrix-flicker 4s ease-in-out infinite;
+}
+
+.matrix-table th,
+.matrix-table td {
+  @apply border border-green-600/50 text-green-400 font-mono;
+  background: rgba(0, 26, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.matrix-table th {
+  background: rgba(0, 26, 0, 0.6);
+  text-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+  position: relative;
+}
+
+.matrix-table th::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #00ff00, transparent);
+  animation: matrix-scan 3s linear infinite;
+}
+
+.matrix-table tr:hover {
+  background: rgba(0, 255, 0, 0.1);
+  transform: scale(1.01);
+}
+
+/* Enhanced Matrix-style code blocks */
+.matrix-code {
+  background: rgba(0, 26, 0, 0.8);
+  border: 1px solid rgba(0, 255, 0, 0.3);
+  color: #00ff00;
+  font-family: "Courier New", monospace;
+  box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.matrix-code::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00ff00, transparent);
+  animation: matrix-scan 4s linear infinite;
+}
+
+/* Enhanced Matrix-style badges */
+.matrix-badge {
+  @apply bg-green-900/50 text-green-400 border border-green-600 font-mono text-xs;
+  box-shadow: 0 0 5px rgba(0, 255, 0, 0.2);
+  animation: matrix-pulse 2s ease-in-out infinite;
+}
+
+/* Enhanced Matrix-style alerts */
+.matrix-alert {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 26, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.95) 100%
+  );
+  border: 1px solid rgba(0, 255, 0, 0.4);
+  color: #00ff00;
+  font-family: "Courier New", monospace;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+  backdrop-filter: blur(10px);
+  animation: matrix-float 3s ease-in-out infinite;
+}
+
+/* Enhanced Matrix-style success state */
+.matrix-success {
+  border-color: #00ff00;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+  animation: matrix-pulse 1s ease-in-out infinite;
+}
+
+/* Enhanced Matrix-style error state */
+.matrix-error {
+  border-color: #ff0000;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+  animation: matrix-pulse 0.5s ease-in-out infinite;
+}
+
+/* Enhanced Matrix-style warning state */
+.matrix-warning {
+  border-color: #ffff00;
+  box-shadow: 0 0 15px rgba(255, 255, 0, 0.4);
+  animation: matrix-pulse 1.5s ease-in-out infinite;
+}
+
+/* Enhanced Matrix-style info state */
+.matrix-info {
+  border-color: #00ffff;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+  animation: matrix-pulse 2s ease-in-out infinite;
+}
+
+/* Enhanced Matrix-style responsive utilities */
+@media (max-width: 768px) {
+  .matrix-text {
+    @apply text-sm;
+  }
+
+  .matrix-button {
+    @apply text-sm px-3 py-2;
+  }
+
+  .matrix-card {
+    @apply p-3;
+  }
+
+  .matrix-scan::after {
+    animation-duration: 1.5s;
+  }
+
+  .matrix-float {
+    animation-duration: 2s;
+  }
+}
+
+@media (max-width: 480px) {
+  .matrix-text {
+    @apply text-xs;
+  }
+
+  .matrix-button {
+    @apply text-xs px-2 py-1;
+  }
+
+  .matrix-card {
+    @apply p-2;
+  }
+
+  .matrix-scan::after {
+    animation-duration: 1s;
+  }
+
+  .matrix-float {
+    animation-duration: 1.5s;
+  }
+}
+
+/* Enhanced Matrix-style accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .matrix-button::before,
+  .matrix-scan::after,
+  .matrix-loading,
+  .matrix-float,
+  .matrix-shimmer,
+  .matrix-flicker {
+    animation: none;
+  }
+
+  .matrix-hover:hover {
+    transform: none;
+  }
+
+  .matrix-dropdown-item:hover {
+    transform: none;
+  }
+
+  .matrix-table tr:hover {
+    transform: none;
+  }
+}
+
+/* Enhanced Matrix-style high contrast mode */
+@media (prefers-contrast: high) {
+  .matrix-border,
+  .matrix-border-glow {
+    border-width: 2px;
+  }
+
+  .matrix-text,
+  .matrix-text-glow {
+    text-shadow: none;
+  }
+
+  .matrix-scan::after {
+    height: 3px;
+  }
+}
+
+/* Enhanced Matrix-style dark mode support */
+@media (prefers-color-scheme: dark) {
+  .matrix-bg {
+    background: linear-gradient(135deg, #001a00 0%, #000000 50%, #001a00 100%);
+  }
+
+  .matrix-bg-glass {
+    background: linear-gradient(
+      135deg,
+      rgba(0, 26, 0, 0.9) 0%,
+      rgba(0, 0, 0, 0.95) 100%
+    );
+  }
+}
+
+/* Enhanced Matrix-style print styles */
+@media print {
+  .matrix-rain,
+  .matrix-scan::after,
+  .matrix-loading,
+  .matrix-float,
+  .matrix-shimmer,
+  .matrix-flicker {
+    display: none;
+  }
+
+  .matrix-text,
+  .matrix-text-glow {
+    color: #000000 !important;
+    text-shadow: none !important;
+  }
+
+  .matrix-border,
+  .matrix-border-glow {
+    border-color: #000000 !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Enhanced Matrix-style tabs */
+.matrix-tab-trigger {
+  @apply text-green-400 font-mono transition-all duration-300 rounded-md;
+}
+
+.matrix-tab-trigger[data-state="active"] {
+  @apply bg-green-500 text-black;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.matrix-tab-trigger:hover {
+  @apply bg-green-900/50;
+}
+
+/* Enhanced Matrix-style labels */
+.matrix-label {
+  @apply text-sm font-bold matrix-text-glow mb-2 block;
+}
+
+/* Mobile Sidebar Overlay */
+.mobile-sidebar-overlay {
+  backdrop-filter: blur(4px);
+}
+
+.mobile-sidebar-panel {
+  box-shadow: 0 0 50px rgba(0, 255, 0, 0.2);
+}
+
+/* Enhanced mobile interactions */
+@media (max-width: 768px) {
+  /* Ensure all interactive elements are touch-friendly */
+  button,
+  [role="button"],
+  .cursor-pointer {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Better tap highlighting */
+  button:active,
+  [role="button"]:active {
+    background-color: rgba(0, 255, 0, 0.1);
+    transform: scale(0.95);
+    transition: all 0.1s ease;
+  }
+
+  /* Improved node interactions on mobile */
+  .react-flow__node {
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0, 255, 0, 0.2);
+  }
+
+  .react-flow__node:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+
+  /* Better scroll behavior on mobile */
+  .react-flow__pane {
+    touch-action: pan-x pan-y;
+  }
+
+  /* Mobile-optimized panels */
+  .react-flow__panel {
+    border-radius: 12px;
+    backdrop-filter: blur(12px);
+  }
+
+  /* Mobile node panel */
+  .mobile-node-panel {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: 0 -10px 50px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(20px);
+  }
+}
+
+/* Landscape mobile adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+  .mobile-node-panel {
+    @apply h-full w-80 right-0 left-auto top-0 bottom-0 rounded-l-xl rounded-t-none;
+    max-height: 100vh;
+  }
+
+  .react-flow__controls {
+    bottom: 20px !important;
+    left: 20px !important;
+  }
+
+  .react-flow__minimap {
+    bottom: 20px !important;
+    right: 340px !important;
+  }
+}
