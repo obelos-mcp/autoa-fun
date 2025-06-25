@@ -55,6 +55,13 @@ const NodePanel = ({ node, setNodes, onClose }: NodePanelProps) => {
     apiKey: "",
     temperature: 0.7,
     maxTokens: 1000,
+    instructions: "Provide a helpful and concise response to the user's question.",
+  });
+
+  // YouTube-specific states
+  const [youtubeConfig, setYoutubeConfig] = useState<any>({
+    useRealAPI: false,
+    youtubeApiKey: "",
   });
 
   // Telegram-specific states
@@ -165,8 +172,16 @@ const NodePanel = ({ node, setNodes, onClose }: NodePanelProps) => {
               break;
           }
         } catch (e) {
-          // Keep defaults if parsing fails
+          console.log("Failed to parse node content:", e);
         }
+      }
+
+      // Parse YouTube config if it's a YouTube input node
+      if (node.type === "youtubeinput") {
+        setYoutubeConfig({
+          useRealAPI: node.data?.useRealAPI || false,
+          youtubeApiKey: node.data?.youtubeApiKey || "",
+        });
       }
 
       // Parse AI config if it's an AI model node
@@ -179,6 +194,7 @@ const NodePanel = ({ node, setNodes, onClose }: NodePanelProps) => {
             apiKey: parsedConfig.apiKey || "",
             temperature: parsedConfig.temperature || 0.7,
             maxTokens: parsedConfig.maxTokens || 1000,
+            instructions: parsedConfig.instructions || "Provide a helpful and concise response to the user's question.",
           });
         } catch (e) {
           // Reset to defaults if parsing fails
@@ -188,6 +204,7 @@ const NodePanel = ({ node, setNodes, onClose }: NodePanelProps) => {
             apiKey: "",
             temperature: 0.7,
             maxTokens: 1000,
+            instructions: "Provide a helpful and concise response to the user's question.",
           });
         }
       }
@@ -215,6 +232,61 @@ const NodePanel = ({ node, setNodes, onClose }: NodePanelProps) => {
     // For AI model nodes, build JSON from separate fields
     if (node.type === "aimodel") {
       finalContent = JSON.stringify(aiConfig, null, 2);
+      
+      // Also store individual fields in node data for backward compatibility
+      setNodes((nds: any[]) =>
+        nds.map((n) =>
+          n.id === node.id
+            ? {
+                ...n,
+                data: {
+                  ...n.data,
+                  label: config.label,
+                  description: config.description,
+                  content: finalContent,
+                  // Store individual AI config fields
+                  provider: aiConfig.provider,
+                  model: aiConfig.model,
+                  apiKey: aiConfig.apiKey,
+                  temperature: aiConfig.temperature,
+                  maxTokens: aiConfig.maxTokens,
+                  instructions: aiConfig.instructions,
+                },
+              }
+            : n
+        )
+      );
+      toast({
+        title: "Node updated",
+        description: "AI model configuration has been saved",
+      });
+      return;
+    }
+
+    // For YouTube input nodes, store configuration in node data
+    if (node.type === "youtubeinput") {
+      setNodes((nds: any[]) =>
+        nds.map((n) =>
+          n.id === node.id
+            ? {
+                ...n,
+                data: {
+                  ...n.data,
+                  label: config.label,
+                  description: config.description,
+                  content: config.content,
+                  useRealAPI: youtubeConfig.useRealAPI,
+                  youtubeApiKey: youtubeConfig.youtubeApiKey,
+                },
+              }
+            : n
+        )
+      );
+      toast({
+        title: "Node updated",
+        description: "YouTube input configuration has been saved",
+      });
+      return;
     }
 
     // For Telegram nodes, build JSON from form fields
@@ -324,6 +396,10 @@ const NodePanel = ({ node, setNodes, onClose }: NodePanelProps) => {
       ...aiConfig,
       [field]: value,
     });
+  };
+
+  const handleYoutubeConfigChange = (field: string, value: any) => {
+    setYoutubeConfig({ ...youtubeConfig, [field]: value });
   };
 
   const addButton = () => {
@@ -1235,31 +1311,56 @@ const NodePanel = ({ node, setNodes, onClose }: NodePanelProps) => {
         );
       case "webhook":
         return (
-          <div className="mb-4">
-            <Label className="text-muted-foreground">
-              Webhook Configuration
-            </Label>
-            <WebhookConfigPanel
-              onConfigSelect={(webhookConfig) =>
-                setConfig({
-                  ...config,
-                  content: JSON.stringify(webhookConfig, null, 2),
-                })
-              }
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="webhook-url" className="text-muted-foreground">Webhook URL</Label>
+              <Input
+                id="webhook-url"
+                value={config.content || ""}
+                onChange={handleChange}
+                placeholder="https://your-webhook-url.com"
+                className="bg-background/50 border-border"
+              />
+            </div>
+            <div>
+              <Label htmlFor="webhook-method" className="text-muted-foreground">HTTP Method</Label>
+              <Select value={config.content || "POST"} onValueChange={(value) => setConfig({ ...config, content: value })}>
+                <SelectTrigger className="bg-background/50 border-border">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="POST">POST</SelectItem>
+                  <SelectItem value="GET">GET</SelectItem>
+                  <SelectItem value="PUT">PUT</SelectItem>
+                  <SelectItem value="DELETE">DELETE</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="webhook-headers" className="text-muted-foreground">Headers (JSON)</Label>
+              <Textarea
+                id="webhook-headers"
+                value={config.content || '{"Content-Type": "application/json"}'}
+                onChange={(e) => setConfig({ ...config, content: e.target.value })}
+                placeholder='{"Content-Type": "application/json"}'
+                className="bg-background/50 border-border h-20 resize-none"
+              />
+            </div>
+            <WebhookConfigPanel 
+              onConfigSelect={(config) => {
+                setConfig({ ...config, content: JSON.stringify(config, null, 2) });
+              }}
             />
           </div>
         );
       case "customcommands":
         return (
-          <div className="mb-4">
-            <CustomCommandsConfig
+          <div className="space-y-4">
+            <CustomCommandsConfig 
               initialConfig={config.content}
-              onConfigChange={(newConfig) =>
-                setConfig({
-                  ...config,
-                  content: newConfig,
-                })
-              }
+              onConfigChange={(newConfig) => {
+                setConfig({ ...config, content: newConfig });
+              }}
             />
           </div>
         );
@@ -1337,6 +1438,19 @@ const NodePanel = ({ node, setNodes, onClose }: NodePanelProps) => {
                 onChange={(e) => handleAiConfigChange("apiKey", e.target.value)}
                 placeholder="Enter your API key"
                 className="bg-muted/30 border-border"
+              />
+            </div>
+
+            <div className="mb-4">
+              <Label htmlFor="instructions" className="text-muted-foreground">
+                Processing Instructions
+              </Label>
+              <Textarea
+                id="instructions"
+                value={aiConfig.instructions}
+                onChange={(e) => handleAiConfigChange("instructions", e.target.value)}
+                placeholder="e.g., Summarize in 5 bullet points, Create 120-word summary, Extract key insights..."
+                className="min-h-[80px] bg-muted/30 border-border"
               />
             </div>
 
@@ -1446,6 +1560,79 @@ const NodePanel = ({ node, setNodes, onClose }: NodePanelProps) => {
               </p>
             </div>
           </>
+        );
+      case "youtubeinput":
+        return (
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="youtubeUrl" className="text-muted-foreground">
+                YouTube URL
+              </Label>
+              <Input
+                id="youtubeUrl"
+                name="content"
+                value={config.content || ""}
+                onChange={handleChange}
+                placeholder="https://www.youtube.com/watch?v=..."
+                className="bg-muted/30 border-border"
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                Enter the YouTube video URL to analyze
+              </p>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Switch
+                id="useRealAPI"
+                checked={youtubeConfig.useRealAPI}
+                onCheckedChange={(checked) =>
+                  handleYoutubeConfigChange("useRealAPI", checked)
+                }
+              />
+              <Label htmlFor="useRealAPI" className="text-muted-foreground">
+                Use Real YouTube API
+              </Label>
+            </div>
+
+            {youtubeConfig.useRealAPI && (
+              <div>
+                <Label htmlFor="youtubeApiKey" className="text-muted-foreground">
+                  YouTube Data API Key
+                </Label>
+                <Input
+                  id="youtubeApiKey"
+                  type="password"
+                  value={youtubeConfig.youtubeApiKey}
+                  onChange={(e) =>
+                    handleYoutubeConfigChange("youtubeApiKey", e.target.value)
+                  }
+                  placeholder="Enter your YouTube Data API key"
+                  className="bg-muted/30 border-border"
+                />
+                <p className="text-xs text-muted-foreground mt-1">
+                  Get it from Google Cloud Console → APIs & Services → Credentials
+                </p>
+              </div>
+            )}
+
+            {youtubeConfig.useRealAPI && (
+              <div className="flex items-center gap-2 p-2 bg-blue-500/10 border border-blue-500/20 rounded text-xs text-blue-400">
+                <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                </svg>
+                <span>Real API enabled - will fetch actual video data</span>
+              </div>
+            )}
+
+            {!youtubeConfig.useRealAPI && (
+              <div className="flex items-center gap-2 p-2 bg-amber-500/10 border border-amber-500/20 rounded text-xs text-amber-400">
+                <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+                <span>Demo mode - will use sample data</span>
+              </div>
+            )}
+          </div>
         );
       default:
         return null;
@@ -1635,8 +1822,10 @@ const NodePanel = ({ node, setNodes, onClose }: NodePanelProps) => {
               <div
                 className={isMobile ? "mobile-compact space-y-2" : "space-y-4"}
               >
-                <WebhookConfigPanel nodeId={node.id} />
-                <CustomCommandsConfig nodeId={node.id} />
+                {/* Advanced configuration options can be added here in the future */}
+                <div className="text-sm text-muted-foreground">
+                  Advanced configuration options will be available here.
+                </div>
               </div>
             </TabsContent>
 

@@ -1124,32 +1124,21 @@ const templates = [
         id: "input-1",
         type: "input",
         position: { x: 100, y: 100 },
-      data: {
+        data: {
           label: "Content Topic Input",
           description: "Enter content topic or theme",
           inputName: "contentTopic",
         },
       },
       {
-        id: "newsaggregator-1",
-        type: "newsaggregator",
-        position: { x: 100, y: 250 },
-      data: {
-          label: "News Aggregator",
-          description: "Gather trending news",
-          sources: ["tech", "business", "crypto"],
-          limit: 5,
-        },
-      },
-      {
         id: "ai-1",
         type: "aimodel",
-        position: { x: 100, y: 400 },
-      data: {
+        position: { x: 100, y: 250 },
+        data: {
           label: "Content Creator AI",
           description: "Generate social media content",
           instructions:
-            "Create engaging social media posts based on the news content. Include hashtags, emojis, and call-to-action. Generate 3 different variations for different platforms.",
+            "Create engaging social media posts based on the provided topic. Include hashtags, emojis, and call-to-action. Generate 3 different variations for different platforms (Twitter, LinkedIn, Facebook).",
           provider: "OpenAI",
           model: "gpt-4o-mini",
         },
@@ -1157,8 +1146,8 @@ const templates = [
       {
         id: "socialmedia-1",
         type: "socialmedia",
-        position: { x: 300, y: 400 },
-      data: {
+        position: { x: 100, y: 400 },
+        data: {
           label: "Multi-Platform Publisher",
           description: "Publish to social platforms",
           platforms: ["twitter", "linkedin", "facebook"],
@@ -1166,14 +1155,12 @@ const templates = [
         },
       },
       {
-        id: "analytics-1",
-        type: "analytics",
+        id: "output-1",
+        type: "output",
         position: { x: 100, y: 550 },
-      data: {
-          label: "Engagement Analytics",
-          description: "Track post performance",
-          metrics: ["likes", "shares", "comments", "reach"],
-          reportFrequency: "daily",
+        data: {
+          label: "Publishing Results",
+          description: "View publishing results and analytics",
         },
       },
     ],
@@ -1181,25 +1168,19 @@ const templates = [
       {
         id: "e1",
         source: "input-1",
-        target: "newsaggregator-1",
-        type: "smoothstep",
-      },
-      {
-        id: "e2",
-        source: "newsaggregator-1",
         target: "ai-1",
         type: "smoothstep",
       },
       {
-        id: "e3",
+        id: "e2",
         source: "ai-1",
         target: "socialmedia-1",
         type: "smoothstep",
       },
       {
-        id: "e4",
+        id: "e3",
         source: "socialmedia-1",
-        target: "analytics-1",
+        target: "output-1",
         type: "smoothstep",
       },
     ],
