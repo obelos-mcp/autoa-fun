@@ -2,12 +2,12 @@ import React from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { Badge } from '@/components/ui/badge';
 
-interface SocialMediaNodeProps {
+interface TransactionFetcherNodeProps {
   data: any;
   isConnectable: boolean;
 }
 
-const SocialMediaNode: React.FC<SocialMediaNodeProps> = ({
+const TransactionFetcherNode: React.FC<TransactionFetcherNodeProps> = ({
   data,
   isConnectable,
 }) => {
@@ -25,7 +25,7 @@ const SocialMediaNode: React.FC<SocialMediaNodeProps> = ({
   };
 
   return (
-    <div className="bg-gradient-to-br from-purple-900/20 to-pink-900/20 border-2 border-purple-500/30 rounded-xl p-4 min-w-[280px] backdrop-blur-sm">
+    <div className="bg-gradient-to-br from-purple-900/20 to-indigo-900/20 border-2 border-purple-500/30 rounded-xl p-4 min-w-[280px] backdrop-blur-sm">
       <Handle
         type="target"
         position={Position.Left}
@@ -34,45 +34,45 @@ const SocialMediaNode: React.FC<SocialMediaNodeProps> = ({
       />
 
       <div className="flex items-center gap-2 mb-3">
-        <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-          <span className="text-white text-sm font-bold">SM</span>
+        <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
+          <span className="text-white text-sm font-bold">🔍</span>
         </div>
         <div>
           <h3 className="font-semibold text-white">
-            {data.label || 'Social Media Post'}
+            {data.label || 'Transaction Fetcher'}
           </h3>
-          <p className="text-xs text-gray-400">Content Publishing</p>
+          <p className="text-xs text-gray-400">Blockchain API</p>
         </div>
       </div>
 
       <div className="space-y-2">
-        {data.platform && (
+        {data.apiProvider && (
           <Badge variant="outline" className="text-xs">
-            Platform: {data.platform}
+            Provider: {data.apiProvider}
           </Badge>
         )}
         
-        {data.targetAudience && (
+        {data.transactionLimit && (
           <Badge variant="outline" className="text-xs">
-            Audience: {data.targetAudience}
+            Limit: {data.transactionLimit} txns
           </Badge>
         )}
         
-        {data.mediaUrl && (
+        {data.dateRange && (
           <Badge variant="outline" className="text-xs">
-            📷 Media Attached
+            Range: {data.dateRange}
           </Badge>
         )}
         
-        {data.scheduleTime && (
+        {data.includeTokens && (
           <Badge variant="outline" className="text-xs">
-            ⏰ Scheduled
+            🪙 Include Tokens
           </Badge>
         )}
-        
-        {data.enableAnalytics && (
+
+        {data.includeNFTs && (
           <Badge variant="outline" className="text-xs">
-            📊 Analytics Enabled
+            🎨 Include NFTs
           </Badge>
         )}
 
@@ -81,6 +81,12 @@ const SocialMediaNode: React.FC<SocialMediaNodeProps> = ({
             className={`text-xs ${getStatusStyles(data.executionStatus)}`}
           >
             Status: {data.executionStatus}
+          </Badge>
+        )}
+        
+        {data.transactionCount && (
+          <Badge variant="outline" className="text-xs">
+            Found: {data.transactionCount} transactions
           </Badge>
         )}
       </div>
@@ -95,4 +101,4 @@ const SocialMediaNode: React.FC<SocialMediaNodeProps> = ({
   );
 };
 
-export default SocialMediaNode;
+export default TransactionFetcherNode; 

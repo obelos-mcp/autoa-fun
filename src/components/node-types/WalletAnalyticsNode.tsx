@@ -2,12 +2,12 @@ import React from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { Badge } from '@/components/ui/badge';
 
-interface SocialMediaNodeProps {
+interface WalletAnalyticsNodeProps {
   data: any;
   isConnectable: boolean;
 }
 
-const SocialMediaNode: React.FC<SocialMediaNodeProps> = ({
+const WalletAnalyticsNode: React.FC<WalletAnalyticsNodeProps> = ({
   data,
   isConnectable,
 }) => {
@@ -25,54 +25,54 @@ const SocialMediaNode: React.FC<SocialMediaNodeProps> = ({
   };
 
   return (
-    <div className="bg-gradient-to-br from-purple-900/20 to-pink-900/20 border-2 border-purple-500/30 rounded-xl p-4 min-w-[280px] backdrop-blur-sm">
+    <div className="bg-gradient-to-br from-emerald-900/20 to-teal-900/20 border-2 border-emerald-500/30 rounded-xl p-4 min-w-[280px] backdrop-blur-sm">
       <Handle
         type="target"
         position={Position.Left}
         isConnectable={isConnectable}
-        className="w-3 h-3 bg-purple-500 border-2 border-purple-300"
+        className="w-3 h-3 bg-emerald-500 border-2 border-emerald-300"
       />
 
       <div className="flex items-center gap-2 mb-3">
-        <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-          <span className="text-white text-sm font-bold">SM</span>
+        <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-lg flex items-center justify-center">
+          <span className="text-white text-sm font-bold">📊</span>
         </div>
         <div>
           <h3 className="font-semibold text-white">
-            {data.label || 'Social Media Post'}
+            {data.label || 'Wallet Analytics'}
           </h3>
-          <p className="text-xs text-gray-400">Content Publishing</p>
+          <p className="text-xs text-gray-400">Data Analysis</p>
         </div>
       </div>
 
       <div className="space-y-2">
-        {data.platform && (
+        {data.analysisType && (
           <Badge variant="outline" className="text-xs">
-            Platform: {data.platform}
+            Type: {data.analysisType}
           </Badge>
         )}
         
-        {data.targetAudience && (
+        {data.generateCharts && (
           <Badge variant="outline" className="text-xs">
-            Audience: {data.targetAudience}
+            📈 Charts Enabled
           </Badge>
         )}
         
-        {data.mediaUrl && (
+        {data.includePatterns && (
           <Badge variant="outline" className="text-xs">
-            📷 Media Attached
+            🔍 Pattern Analysis
           </Badge>
         )}
         
-        {data.scheduleTime && (
+        {data.riskAssessment && (
           <Badge variant="outline" className="text-xs">
-            ⏰ Scheduled
+            ⚠️ Risk Assessment
           </Badge>
         )}
-        
-        {data.enableAnalytics && (
+
+        {data.portfolioAnalysis && (
           <Badge variant="outline" className="text-xs">
-            📊 Analytics Enabled
+            💼 Portfolio Analysis
           </Badge>
         )}
 
@@ -83,16 +83,22 @@ const SocialMediaNode: React.FC<SocialMediaNodeProps> = ({
             Status: {data.executionStatus}
           </Badge>
         )}
+        
+        {data.insightsGenerated && (
+          <Badge variant="outline" className="text-xs">
+            Generated: {data.insightsGenerated} insights
+          </Badge>
+        )}
       </div>
 
       <Handle
         type="source"
         position={Position.Right}
         isConnectable={isConnectable}
-        className="w-3 h-3 bg-purple-500 border-2 border-purple-300"
+        className="w-3 h-3 bg-emerald-500 border-2 border-emerald-300"
       />
     </div>
   );
 };
 
-export default SocialMediaNode;
+export default WalletAnalyticsNode; 

@@ -1,9 +1,9 @@
 import { Handle, Position } from "@xyflow/react";
 import { Badge } from "@/components/ui/badge";
-import { MessageSquare, CheckCircle, Settings } from "lucide-react";
+import { Wallet, CheckCircle, Settings, TrendingUp, AlertTriangle } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-const SystemNode = ({
+const WalletTrackerNode = ({
   data,
   id,
   setNodes,
@@ -30,18 +30,21 @@ const SystemNode = ({
   };
 
   // Get configuration from data or defaults
-  const role = data.role || "assistant";
-  const priority = data.priority || "normal";
-  const persistent = data.persistent !== false;
+  const walletAddress = data.walletAddress || "";
+  const blockchain = data.blockchain || "ethereum";
+  const transactionLimit = data.transactionLimit || "100";
+  const includeTokens = data.includeTokens !== false;
 
   return (
     <div
-      className={`matrix-bg-glass matrix-border rounded-xl matrix-hover ${
-        isMobile ? "min-w-[280px] p-3" : "min-w-[320px] p-4"
-      }`}
+      className={`${isMobile ? 'p-2 min-w-[200px]' : 'p-4 min-w-[280px]'} relative bg-black/90 backdrop-blur-sm rounded-xl border border-green-500/30 shadow-lg`}
+      style={{
+        background: 'linear-gradient(135deg, rgba(0, 26, 0, 0.9) 0%, rgba(0, 0, 0, 0.95) 100%)',
+        boxShadow: '0 0 15px rgba(0, 255, 0, 0.2)',
+      }}
     >
       <div className="flex items-center mb-2">
-        <MessageSquare
+        <Wallet
           className={`mr-2 text-green-400 ${isMobile ? "h-3 w-3" : "h-4 w-4"}`}
         />
         <div className={`font-medium matrix-text ${isMobile ? "text-sm" : ""}`}>
@@ -62,25 +65,25 @@ const SystemNode = ({
           variant="outline"
           className={`matrix-badge ${isMobile ? "mobile-badge" : "text-xs"}`}
         >
-          {role}
+          {blockchain}
         </Badge>
         <Badge
           variant="outline"
           className={`matrix-badge ${isMobile ? "mobile-badge" : "text-xs"}`}
         >
-          {priority}
+          {transactionLimit} txns
         </Badge>
-        {persistent && (
+        {includeTokens && (
           <Badge
             variant="outline"
             className={`bg-blue-600/20 text-blue-400 border-blue-600/30 ${
               isMobile ? "mobile-badge" : "text-xs"
             }`}
           >
-            Persistent
+            Tokens
           </Badge>
         )}
-        {data.configured ? (
+        {walletAddress ? (
           <Badge
             variant="default"
             className={`bg-green-600 ${isMobile ? "mobile-badge" : "text-xs"}`}
@@ -96,7 +99,7 @@ const SystemNode = ({
             className={isMobile ? "mobile-badge" : "text-xs"}
           >
             <Settings className={`mr-1 ${isMobile ? "h-2 w-2" : "h-3 w-3"}`} />
-            Setup Required
+            Address Required
           </Badge>
         )}
       </div>
@@ -108,13 +111,14 @@ const SystemNode = ({
           }`}
         >
           {data.executionStatus === "completed"
-            ? "✓ System Configured"
+            ? "✓ Transactions Fetched"
             : data.executionStatus === "error"
-            ? "✗ Configuration Error"
-            : "⟳ Configuring"}
+            ? "✗ Fetch Error"
+            : "⟳ Fetching Transactions"}
         </div>
       )}
 
+      {/* Wallet tracker nodes receive wallet address and output transaction data */}
       <Handle
         type="target"
         position={Position.Top}
@@ -131,4 +135,4 @@ const SystemNode = ({
   );
 };
 
-export default SystemNode;
+export default WalletTrackerNode; 

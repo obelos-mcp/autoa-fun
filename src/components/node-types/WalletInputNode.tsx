@@ -2,12 +2,12 @@ import React from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { Badge } from '@/components/ui/badge';
 
-interface SocialMediaNodeProps {
+interface WalletInputNodeProps {
   data: any;
   isConnectable: boolean;
 }
 
-const SocialMediaNode: React.FC<SocialMediaNodeProps> = ({
+const WalletInputNode: React.FC<WalletInputNodeProps> = ({
   data,
   isConnectable,
 }) => {
@@ -25,54 +25,35 @@ const SocialMediaNode: React.FC<SocialMediaNodeProps> = ({
   };
 
   return (
-    <div className="bg-gradient-to-br from-purple-900/20 to-pink-900/20 border-2 border-purple-500/30 rounded-xl p-4 min-w-[280px] backdrop-blur-sm">
-      <Handle
-        type="target"
-        position={Position.Left}
-        isConnectable={isConnectable}
-        className="w-3 h-3 bg-purple-500 border-2 border-purple-300"
-      />
-
+    <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border-2 border-blue-500/30 rounded-xl p-4 min-w-[280px] backdrop-blur-sm">
       <div className="flex items-center gap-2 mb-3">
-        <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-          <span className="text-white text-sm font-bold">SM</span>
+        <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+          <span className="text-white text-sm font-bold">💰</span>
         </div>
         <div>
           <h3 className="font-semibold text-white">
-            {data.label || 'Social Media Post'}
+            {data.label || 'Wallet Address Input'}
           </h3>
-          <p className="text-xs text-gray-400">Content Publishing</p>
+          <p className="text-xs text-gray-400">Blockchain Wallet</p>
         </div>
       </div>
 
       <div className="space-y-2">
-        {data.platform && (
+        {data.walletAddress && (
           <Badge variant="outline" className="text-xs">
-            Platform: {data.platform}
+            Address: {data.walletAddress.slice(0, 10)}...{data.walletAddress.slice(-6)}
           </Badge>
         )}
         
-        {data.targetAudience && (
+        {data.blockchain && (
           <Badge variant="outline" className="text-xs">
-            Audience: {data.targetAudience}
+            Chain: {data.blockchain}
           </Badge>
         )}
         
-        {data.mediaUrl && (
+        {data.configured && (
           <Badge variant="outline" className="text-xs">
-            📷 Media Attached
-          </Badge>
-        )}
-        
-        {data.scheduleTime && (
-          <Badge variant="outline" className="text-xs">
-            ⏰ Scheduled
-          </Badge>
-        )}
-        
-        {data.enableAnalytics && (
-          <Badge variant="outline" className="text-xs">
-            📊 Analytics Enabled
+            ✅ Configured
           </Badge>
         )}
 
@@ -89,10 +70,10 @@ const SocialMediaNode: React.FC<SocialMediaNodeProps> = ({
         type="source"
         position={Position.Right}
         isConnectable={isConnectable}
-        className="w-3 h-3 bg-purple-500 border-2 border-purple-300"
+        className="w-3 h-3 bg-blue-500 border-2 border-blue-300"
       />
     </div>
   );
 };
 
-export default SocialMediaNode;
+export default WalletInputNode; 

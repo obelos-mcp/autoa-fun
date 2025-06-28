@@ -1,4 +1,3 @@
-
 import { useState, useCallback } from 'react';
 import { FlowExecutionService, FlowNode } from '@/services/flowExecutionService';
 import { useToast } from '@/hooks/use-toast';
@@ -58,7 +57,7 @@ export const useFlowExecution = (
       
       // Process other input nodes with custom inputs
       const inputNodes = nodes.filter(node => 
-        ['input', 'system', 'youtubeinput', 'localfilesaver'].includes(node.type) &&
+        ['input', 'system', 'youtubeinput', 'localfilesaver', 'walletinput'].includes(node.type) &&
         !processedResults[node.id] // Skip if already processed
       );
       
@@ -79,7 +78,7 @@ export const useFlowExecution = (
       // Step 2: Process remaining nodes in dependency order
       console.log('Step 2: Processing remaining nodes...');
       const remainingNodes = nodes.filter(node => 
-        !['input', 'system', 'youtubeinput', 'localfilesaver', 'callautomation'].includes(node.type) ||
+        !['input', 'system', 'youtubeinput', 'localfilesaver', 'callautomation', 'walletinput'].includes(node.type) ||
         (node.type === 'callautomation' && !processedResults[node.id]) // Include callautomation if not already processed
       );
       

@@ -43,6 +43,7 @@ const FlowTestModal = ({
         "localfilesaver",
         "callautomation",
         "mcp",
+        "walletinput",
       ].includes(node.type)
     );
 
@@ -281,6 +282,54 @@ const FlowTestModal = ({
                   rows={3}
                 />
               </div>
+            </div>
+          </div>
+        );
+
+      case "walletinput":
+        return (
+          <div key={node.id} className="space-y-3">
+            <Label className="text-sm font-medium">Wallet Analysis Setup</Label>
+            <div className="space-y-3">
+              <div>
+                <Label htmlFor={`${node.id}-address`} className="text-xs">
+                  Wallet Address
+                </Label>
+                <Input
+                  id={`${node.id}-address`}
+                  placeholder="0x742d35Cc6634C0532925a3b8D0c9C9bcCfBb6"
+                  value={inputs[node.id]?.walletAddress || ""}
+                  onChange={(e) =>
+                    handleInputChange(node.id, {
+                      ...inputs[node.id],
+                      walletAddress: e.target.value,
+                    })
+                  }
+                  className="text-sm font-mono"
+                />
+              </div>
+              <div>
+                <Label htmlFor={`${node.id}-blockchain`} className="text-xs">
+                  Blockchain
+                </Label>
+                <select
+                  id={`${node.id}-blockchain`}
+                  value={inputs[node.id]?.blockchain || "ethereum"}
+                  onChange={(e) =>
+                    handleInputChange(node.id, {
+                      ...inputs[node.id],
+                      blockchain: e.target.value,
+                    })
+                  }
+                  className="w-full px-3 py-2 text-sm border rounded-md bg-background"
+                >
+                  <option value="ethereum">Ethereum</option>
+                  <option value="solana">Solana</option>
+                </select>
+              </div>
+            </div>
+            <div className="text-xs text-muted-foreground">
+              Enter a blockchain wallet address to analyze transaction history and generate insights
             </div>
           </div>
         );

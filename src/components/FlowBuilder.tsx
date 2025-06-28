@@ -98,6 +98,19 @@ const FlowBuilder = () => {
     );
   }, [connectionType, setEdges]);
 
+  // Clean up function to remove edges targeting input nodes
+  const cleanupInputNodeEdges = useCallback((edges: any[]) => {
+    return edges.filter(edge => {
+      // Remove any edges that target input nodes (since input nodes should not have incoming connections)
+      const targetNode = nodes.find(node => node.id === edge.target);
+      if (targetNode && targetNode.type === 'input') {
+        console.log(`Removing problematic edge targeting input node: ${edge.id}`);
+        return false;
+      }
+      return true;
+    });
+  }, [nodes]);
+
   // Load last flow on mount
   useEffect(() => {
     try {
@@ -105,11 +118,53 @@ const FlowBuilder = () => {
       if (lastFlow) {
         const flowData = JSON.parse(lastFlow);
         if (flowData.nodes && flowData.edges) {
+          // Comprehensive edge cleanup before setting them
+          const cleanedEdges = flowData.edges.filter((edge: any) => {
+            const sourceNode = flowData.nodes.find((node: any) => node.id === edge.source);
+            const targetNode = flowData.nodes.find((node: any) => node.id === edge.target);
+            
+            // Remove edges that target input nodes (input nodes should only be starting points)
+            if (targetNode && targetNode.type === 'input') {
+              console.log(`Removing problematic edge targeting input node: ${edge.id}`);
+              return false;
+            }
+            
+            // Remove edges that source from output nodes (output nodes should only be ending points)
+            if (sourceNode && sourceNode.type === 'output') {
+              console.log(`Removing problematic edge sourcing from output node: ${edge.id}`);
+              return false;
+            }
+            
+            // Remove self-referencing edges
+            if (edge.source === edge.target) {
+              console.log(`Removing self-referencing edge: ${edge.id}`);
+              return false;
+            }
+            
+            // Remove edges where source or target node doesn't exist
+            if (!sourceNode || !targetNode) {
+              console.log(`Removing edge with missing nodes: ${edge.id}`);
+              return false;
+            }
+            
+            return true;
+          });
+          
+          // If we cleaned up edges, save the cleaned version
+          if (cleanedEdges.length !== flowData.edges.length) {
+            const cleanedFlowData = {
+              nodes: flowData.nodes,
+              edges: cleanedEdges
+            };
+            localStorage.setItem('ai-flow', JSON.stringify(cleanedFlowData));
+            console.log(`Cleaned up ${flowData.edges.length - cleanedEdges.length} problematic edges`);
+          }
+          
           setNodes(flowData.nodes);
-          setEdges(flowData.edges);
+          setEdges(cleanedEdges);
           toast({
             title: "Flow loaded",
-            description: "Your last saved flow has been loaded",
+            description: "Your last saved flow has been loaded and cleaned up",
           });
         }
       }
@@ -120,6 +175,40 @@ const FlowBuilder = () => {
 
   const onConnect = useCallback(
     (params: any) => {
+      // Validate connection before creating it
+      const sourceNode = nodes.find(node => node.id === params.source);
+      const targetNode = nodes.find(node => node.id === params.target);
+      
+      // Prevent connections to input nodes
+      if (targetNode && targetNode.type === 'input') {
+        toast({
+          title: "Invalid Connection",
+          description: "Input nodes can only be starting points and cannot receive connections",
+          variant: "destructive"
+        });
+        return;
+      }
+      
+      // Prevent connections from output nodes
+      if (sourceNode && sourceNode.type === 'output') {
+        toast({
+          title: "Invalid Connection", 
+          description: "Output nodes can only be ending points and cannot connect to other nodes",
+          variant: "destructive"
+        });
+        return;
+      }
+      
+      // Prevent self-connections
+      if (params.source === params.target) {
+        toast({
+          title: "Invalid Connection",
+          description: "Nodes cannot connect to themselves",
+          variant: "destructive"
+        });
+        return;
+      }
+      
       setEdges((eds) =>
         addEdge(
           {
@@ -143,7 +232,7 @@ const FlowBuilder = () => {
         )
       );
     },
-    [setEdges, connectionType]
+    [setEdges, connectionType, nodes, toast]
   );
 
   const onNodeClick = useCallback(

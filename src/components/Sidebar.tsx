@@ -486,6 +486,40 @@ const nodeCategories = [
       },
     ],
   },
+  {
+    title: "Blockchain Analytics",
+    icon: DollarSign,
+    nodes: [
+      {
+        type: "walletinput",
+        label: "Wallet Input",
+        description: "Input blockchain wallet address",
+        icon: DollarSign,
+        color: "#00ff00",
+      },
+      {
+        type: "transactionfetcher",
+        label: "Transaction Fetcher",
+        description: "Fetch blockchain transaction data",
+        icon: Database,
+        color: "#00cc00",
+      },
+      {
+        type: "walletanalytics",
+        label: "Wallet Analytics",
+        description: "Generate analytics and insights",
+        icon: BarChart3,
+        color: "#00ff00",
+      },
+      {
+        type: "walletreport",
+        label: "Wallet Report",
+        description: "Generate PDF transaction report",
+        icon: FileText,
+        color: "#00cc00",
+      },
+    ],
+  },
 ];
 
 const templates = [
@@ -563,7 +597,7 @@ const templates = [
         id: "system-1",
         type: "system",
         position: { x: 100, y: 100 },
-      data: {
+        data: {
           label: "AI Personality",
           description: "Define AI behavior",
           content:
@@ -574,7 +608,7 @@ const templates = [
         id: "input-1",
         type: "input",
         position: { x: 100, y: 250 },
-      data: {
+        data: {
           label: "User Input",
           description: "Process user messages",
           inputName: "userMessage",
@@ -584,7 +618,7 @@ const templates = [
         id: "aimodel-1",
         type: "aimodel",
         position: { x: 100, y: 400 },
-      data: {
+        data: {
           label: "AI Processor",
           description: "Process with AI",
           instructions:
@@ -599,7 +633,7 @@ const templates = [
         id: "output-1",
         type: "output",
         position: { x: 250, y: 500 },
-      data: {
+        data: {
           label: "AI Response",
           description: "Return the result",
           outputName: "aiResponse",
@@ -623,492 +657,6 @@ const templates = [
         id: "e3",
         source: "aimodel-1",
         target: "output-1",
-        type: "smoothstep",
-      },
-    ],
-  },
-  {
-    name: "Crypto Portfolio Tracker",
-    description:
-      "Track cryptocurrency prices and analyze portfolio performance with AI insights",
-    icon: "₿",
-    category: "Crypto & Finance",
-    nodes: [
-      {
-        id: "input-1",
-        type: "input",
-        position: { x: 50, y: 100 },
-      data: {
-          label: "Crypto Symbol Input",
-          description: "Enter crypto symbol (BTC, ETH, etc.)",
-          inputName: "cryptoSymbol",
-        },
-      },
-      {
-        id: "stock-1",
-        type: "stockdata",
-        position: { x: 50, y: 250 },
-      data: {
-          label: "Crypto Price Data",
-          description: "Fetch real-time crypto prices",
-          symbol: "BTC",
-        },
-      },
-      {
-        id: "ai-1",
-        type: "aimodel",
-        position: { x: 50, y: 400 },
-      data: {
-          label: "Crypto Analyst AI",
-          description: "AI analysis of crypto trends",
-          instructions:
-            "Analyze the crypto price data and provide investment insights, market trends, and risk assessment in 3 key points.",
-          provider: "OpenAI",
-          model: "gpt-4o-mini",
-        },
-      },
-      {
-        id: "notification-1",
-        type: "notification",
-        position: { x: 300, y: 400 },
-      data: {
-          label: "Price Alert",
-          description: "Send crypto price alerts",
-          channel: "email",
-          subject: "Crypto Price Alert",
-        },
-      },
-      {
-        id: "datalogger-1",
-        type: "datalogger",
-        position: { x: 50, y: 550 },
-      data: {
-          label: "Portfolio Logger",
-          description: "Log portfolio performance",
-          storage: "local",
-          format: "json",
-          filename: "crypto_portfolio",
-        },
-      },
-    ],
-    edges: [
-      {
-        id: "e1",
-        source: "input-1",
-        target: "stock-1",
-        type: "smoothstep",
-      },
-      {
-        id: "e2",
-        source: "stock-1",
-        target: "ai-1",
-        type: "smoothstep",
-      },
-      {
-        id: "e3",
-        source: "stock-1",
-        target: "notification-1",
-        type: "smoothstep",
-      },
-      {
-        id: "e4",
-        source: "ai-1",
-        target: "datalogger-1",
-        type: "smoothstep",
-      },
-    ],
-  },
-  {
-    name: "DeFi Yield Monitor",
-    description:
-      "Monitor DeFi protocols and yield farming opportunities with automated alerts",
-    icon: "🌾",
-    category: "Crypto & Finance",
-    nodes: [
-      {
-        id: "input-1",
-        type: "input",
-        position: { x: 100, y: 100 },
-      data: {
-          label: "Protocol Input",
-          description: "Enter DeFi protocol name",
-          inputName: "defiProtocol",
-        },
-      },
-      {
-        id: "api-1",
-        type: "api",
-        position: { x: 100, y: 250 },
-      data: {
-          label: "DeFi API Connector",
-          description: "Connect to DeFi yield APIs",
-          endpoint: "https://api.defiprotocol.com/yields",
-          method: "GET",
-        },
-      },
-      {
-        id: "ai-1",
-        type: "aimodel",
-        position: { x: 100, y: 400 },
-      data: {
-          label: "Yield Analyzer",
-          description: "Analyze yield opportunities",
-          instructions:
-            "Analyze the DeFi yield data and identify the top 3 opportunities with risk assessment and APY comparison.",
-          provider: "OpenAI",
-          model: "gpt-4o-mini",
-        },
-      },
-      {
-        id: "alert-1",
-        type: "alert",
-        position: { x: 300, y: 400 },
-      data: {
-          label: "High Yield Alert",
-          description: "Alert for high yield opportunities",
-          threshold: "15%",
-          alertType: "yield_opportunity",
-        },
-      },
-      {
-        id: "backup-1",
-        type: "backup",
-        position: { x: 100, y: 550 },
-      data: {
-          label: "Strategy Backup",
-          description: "Backup yield strategies",
-          source: "/defi_strategies",
-          destination: "/backup/defi",
-          type: "incremental",
-        },
-      },
-    ],
-    edges: [
-      {
-        id: "e1",
-        source: "input-1",
-        target: "api-1",
-        type: "smoothstep",
-      },
-      {
-        id: "e2",
-        source: "api-1",
-        target: "ai-1",
-        type: "smoothstep",
-      },
-      {
-        id: "e3",
-        source: "ai-1",
-        target: "alert-1",
-        type: "smoothstep",
-      },
-      {
-        id: "e4",
-        source: "ai-1",
-        target: "backup-1",
-        type: "smoothstep",
-      },
-    ],
-  },
-  {
-    name: "NFT Collection Analyzer",
-    description:
-      "Analyze NFT collections, track floor prices, and identify trending projects",
-    icon: "🖼️",
-    category: "Crypto & Finance",
-    nodes: [
-      {
-        id: "input-1",
-        type: "input",
-        position: { x: 100, y: 100 },
-      data: {
-          label: "NFT Collection Input",
-          description: "Enter NFT collection name or address",
-          inputName: "nftCollection",
-        },
-      },
-      {
-        id: "api-1",
-        type: "api",
-        position: { x: 100, y: 250 },
-      data: {
-          label: "OpenSea API",
-          description: "Fetch NFT collection data",
-          endpoint: "https://api.opensea.io/api/v1/collection/",
-          method: "GET",
-        },
-      },
-      {
-        id: "ai-1",
-        type: "aimodel",
-        position: { x: 100, y: 400 },
-      data: {
-          label: "NFT Market Analyst",
-          description: "Analyze NFT market trends",
-          instructions:
-            "Analyze the NFT collection data including floor price, volume, and market trends. Provide investment recommendations and risk assessment.",
-          provider: "OpenAI",
-          model: "gpt-4o-mini",
-        },
-      },
-      {
-        id: "socialmedia-1",
-        type: "socialmedia",
-        position: { x: 300, y: 400 },
-      data: {
-          label: "Twitter NFT Bot",
-          description: "Post NFT analysis to Twitter",
-          platform: "twitter",
-          contentType: "analysis",
-        },
-      },
-      {
-        id: "datalogger-1",
-        type: "datalogger",
-        position: { x: 100, y: 550 },
-      data: {
-          label: "NFT Data Logger",
-          description: "Log NFT collection metrics",
-          storage: "database",
-          format: "json",
-          filename: "nft_collections",
-        },
-      },
-    ],
-    edges: [
-      {
-        id: "e1",
-        source: "input-1",
-        target: "api-1",
-        type: "smoothstep",
-      },
-      {
-        id: "e2",
-        source: "api-1",
-        target: "ai-1",
-        type: "smoothstep",
-      },
-      {
-        id: "e3",
-        source: "ai-1",
-        target: "socialmedia-1",
-        type: "smoothstep",
-      },
-      {
-        id: "e4",
-        source: "ai-1",
-        target: "datalogger-1",
-        type: "smoothstep",
-      },
-    ],
-  },
-  {
-    name: "E-commerce Payment Flow",
-    description:
-      "Complete e-commerce payment processing with inventory management and notifications",
-    icon: "💳",
-    category: "Business Automation",
-    nodes: [
-      {
-        id: "input-1",
-        type: "input",
-        position: { x: 100, y: 100 },
-      data: {
-          label: "Order Input",
-          description: "Customer order details",
-          inputName: "orderDetails",
-        },
-      },
-      {
-        id: "payment-1",
-        type: "paymentprocessor",
-        position: { x: 100, y: 250 },
-      data: {
-          label: "Payment Gateway",
-          description: "Process customer payment",
-          gateway: "stripe",
-          currency: "USD",
-          enable3DS: true,
-        },
-      },
-      {
-        id: "condition-1",
-        type: "condition",
-        position: { x: 100, y: 400 },
-      data: {
-          label: "Payment Success Check",
-          description: "Check if payment was successful",
-          condition: "payment.status === 'completed'",
-        },
-      },
-      {
-        id: "notification-1",
-        type: "notification",
-        position: { x: 300, y: 400 },
-      data: {
-          label: "Order Confirmation",
-          description: "Send order confirmation email",
-          channel: "email",
-          subject: "Order Confirmation",
-          template: "success",
-        },
-      },
-      {
-        id: "datalogger-1",
-        type: "datalogger",
-        position: { x: 100, y: 550 },
-      data: {
-          label: "Order Logger",
-          description: "Log successful orders",
-          storage: "database",
-          format: "json",
-          filename: "orders",
-        },
-      },
-    ],
-    edges: [
-      {
-        id: "e1",
-        source: "input-1",
-        target: "payment-1",
-        type: "smoothstep",
-      },
-      {
-        id: "e2",
-        source: "payment-1",
-        target: "condition-1",
-        type: "smoothstep",
-      },
-      {
-        id: "e3",
-        source: "condition-1",
-        target: "notification-1",
-        type: "smoothstep",
-      },
-      {
-        id: "e4",
-        source: "condition-1",
-        target: "datalogger-1",
-        type: "smoothstep",
-      },
-    ],
-  },
-  {
-    name: "Website Health Monitor",
-    description:
-      "Monitor website health, performance, and SEO with automated alerts and reporting",
-    icon: "🏥",
-    category: "Infrastructure",
-    nodes: [
-      {
-        id: "input-1",
-        type: "input",
-        position: { x: 100, y: 100 },
-      data: {
-          label: "Website URL Input",
-          description: "Enter website URL to monitor",
-          inputName: "websiteUrl",
-        },
-      },
-      {
-        id: "healthcheck-1",
-        type: "healthcheck",
-        position: { x: 100, y: 250 },
-      data: {
-          label: "Health Check",
-          description: "Monitor website uptime",
-          checkType: "http",
-          interval: "300",
-          timeout: "10",
-        },
-      },
-      {
-        id: "seo-1",
-        type: "seoanalyzer",
-        position: { x: 300, y: 250 },
-      data: {
-          label: "SEO Analyzer",
-          description: "Analyze website SEO",
-          checkFrequency: "daily",
-        },
-      },
-      {
-        id: "performancemonitor-1",
-        type: "performancemonitor",
-        position: { x: 500, y: 250 },
-      data: {
-          label: "Performance Monitor",
-          description: "Monitor website performance",
-          metrics: ["load_time", "core_vitals"],
-        },
-      },
-      {
-        id: "ai-1",
-        type: "aimodel",
-        position: { x: 300, y: 400 },
-      data: {
-          label: "Report Generator",
-          description: "Generate health report",
-          instructions:
-            "Generate a comprehensive website health report including uptime, SEO score, performance metrics, and actionable recommendations.",
-          provider: "OpenAI",
-          model: "gpt-4o-mini",
-        },
-      },
-      {
-        id: "notification-1",
-        type: "notification",
-        position: { x: 300, y: 550 },
-      data: {
-          label: "Health Report",
-          description: "Send health report",
-          channel: "email",
-          subject: "Website Health Report",
-          template: "info",
-        },
-      },
-    ],
-    edges: [
-      {
-        id: "e1",
-        source: "input-1",
-        target: "healthcheck-1",
-        type: "smoothstep",
-      },
-      {
-        id: "e2",
-        source: "input-1",
-        target: "seo-1",
-        type: "smoothstep",
-      },
-      {
-        id: "e3",
-        source: "input-1",
-        target: "performancemonitor-1",
-        type: "smoothstep",
-      },
-      {
-        id: "e4",
-        source: "healthcheck-1",
-        target: "ai-1",
-        type: "smoothstep",
-      },
-      {
-        id: "e5",
-        source: "seo-1",
-        target: "ai-1",
-        type: "smoothstep",
-      },
-      {
-        id: "e6",
-        source: "performancemonitor-1",
-        target: "ai-1",
-        type: "smoothstep",
-      },
-      {
-        id: "e7",
-        source: "ai-1",
-        target: "notification-1",
         type: "smoothstep",
       },
     ],
@@ -1186,113 +734,83 @@ const templates = [
     ],
   },
   {
-    name: "Blockchain Transaction Monitor",
+    name: "Wallet Transaction Analyzer",
     description:
-      "Monitor blockchain transactions and smart contract events with real-time alerts",
-    icon: "⛓️",
-    category: "Crypto & Finance",
+      "Comprehensive blockchain wallet analysis with transaction history, analytics, and PDF reports",
+    icon: "💰",
+    category: "Blockchain Analytics",
     nodes: [
       {
-        id: "input-1",
-        type: "input",
+        id: "wallet-input-1",
+        type: "walletinput",
         position: { x: 100, y: 100 },
-      data: {
-          label: "Wallet Address Input",
-          description: "Enter wallet address to monitor",
-          inputName: "walletAddress",
-        },
-      },
-      {
-        id: "api-1",
-        type: "api",
-        position: { x: 100, y: 250 },
-      data: {
-          label: "Blockchain API",
-          description: "Connect to blockchain explorer",
-          endpoint: "https://api.etherscan.io/api",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      },
-      {
-        id: "condition-1",
-        type: "condition",
-        position: { x: 100, y: 400 },
-      data: {
-          label: "Large Transaction Filter",
-          description: "Filter for large transactions",
-          condition: "transaction.value > 1000000",
-        },
-      },
-      {
-        id: "ai-1",
-        type: "aimodel",
-        position: { x: 300, y: 400 },
         data: {
-          label: "Transaction Analyzer",
-          description: "Analyze transaction patterns",
-          instructions:
-            "Analyze the blockchain transaction data and identify patterns, potential risks, and notable activities. Provide insights on transaction behavior and security recommendations.",
-          provider: "OpenAI",
-          model: "gpt-4o-mini",
+          label: "Wallet Address Input",
+          description: "Enter blockchain wallet address",
+          blockchain: "ethereum",
+          configured: false,
         },
       },
       {
-        id: "alert-1",
-        type: "alert",
+        id: "transaction-fetcher-1",
+        type: "transactionfetcher",
+        position: { x: 100, y: 250 },
+        data: {
+          label: "Transaction Data Fetcher",
+          description: "Fetch transaction history from blockchain",
+          apiProvider: "etherscan",
+          transactionLimit: 1000,
+          dateRange: "last_30_days",
+          includeTokens: true,
+          includeNFTs: true,
+        },
+      },
+      {
+        id: "wallet-analytics-1",
+        type: "walletanalytics",
+        position: { x: 100, y: 400 },
+        data: {
+          label: "Analytics Generator",
+          description: "Generate wallet insights and analytics",
+          analysisType: "comprehensive",
+          generateCharts: true,
+          includePatterns: true,
+          riskAssessment: true,
+          portfolioAnalysis: true,
+        },
+      },
+      {
+        id: "wallet-report-1",
+        type: "walletreport",
         position: { x: 100, y: 550 },
         data: {
-          label: "Security Alert",
-          description: "Alert for suspicious activity",
-          alertType: "security",
-          threshold: "high_value_transaction",
-        },
-      },
-      {
-        id: "datalogger-1",
-        type: "datalogger",
-        position: { x: 300, y: 550 },
-        data: {
-          label: "Transaction Logger",
-          description: "Log all transactions",
-          storage: "database",
-          format: "json",
-          filename: "blockchain_transactions",
-          encryption: true,
+          label: "PDF Report Generator",
+          description: "Generate downloadable transaction report",
+          reportFormat: "comprehensive",
+          includeCharts: true,
+          includeTransactionList: true,
+          includeSummary: true,
+          watermark: true,
         },
       },
     ],
     edges: [
       {
         id: "e1",
-        source: "input-1",
-        target: "api-1",
+        source: "wallet-input-1",
+        target: "transaction-fetcher-1",
         type: "smoothstep",
       },
       {
         id: "e2",
-        source: "api-1",
-        target: "condition-1",
+        source: "transaction-fetcher-1",
+        target: "wallet-analytics-1",
         type: "smoothstep",
       },
       {
         id: "e3",
-        source: "api-1",
-        target: "ai-1",
-        type: "smoothstep",
-      },
-      {
-        id: "e4",
-        source: "condition-1",
-        target: "alert-1",
-        type: "smoothstep",
-      },
-      {
-        id: "e5",
-        source: "ai-1",
-        target: "datalogger-1",
+        source: "wallet-analytics-1",
+        target: "wallet-report-1",
         type: "smoothstep",
       },
     ],
@@ -1310,6 +828,7 @@ const Sidebar = ({ savedFlows, onLoadFlow, onLoadTemplate }: SidebarProps) => {
       "YouTube Engine": false,
       "Telegram Advanced": false,
       "Integration Layer": false,
+      "Blockchain Analytics": false,
     }
   );
 

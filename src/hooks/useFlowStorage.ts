@@ -278,11 +278,27 @@ export const useFlowStorage = () => {
   const loadFlow = useCallback((index: number, setNodes: any, setEdges: any) => {
     try {
       const flow = savedFlows[index].data;
+      
+      // Clean up any problematic edges that target input nodes
+      const cleanedEdges = flow.edges.filter((edge: any) => {
+        const targetNode = flow.nodes.find((node: any) => node.id === edge.target);
+        if (targetNode && targetNode.type === 'input') {
+          console.log(`Removing problematic edge targeting input node in saved flow: ${edge.id}`);
+          return false;
+        }
+        return true;
+      });
+
       setNodes(flow.nodes);
-      setEdges(flow.edges);
+      setEdges(cleanedEdges);
+      
+      // Update localStorage with cleaned flow
+      const cleanedFlow = { nodes: flow.nodes, edges: cleanedEdges };
+      localStorage.setItem('ai-flow', JSON.stringify(cleanedFlow));
+      
       toast({
         title: "Flow loaded",
-        description: `${savedFlows[index].name} has been loaded successfully`
+        description: `${savedFlows[index].name} has been loaded and cleaned up successfully`
       });
     } catch (error) {
       console.error("Error loading flow:", error);
@@ -296,22 +312,54 @@ export const useFlowStorage = () => {
   const loadTemplate = useCallback((templateData: any, setNodes: any, setEdges: any) => {
     try {
       if (templateData.nodes && templateData.edges) {
+        // Comprehensive edge cleanup
+        const cleanedEdges = templateData.edges.filter((edge: any) => {
+          const sourceNode = templateData.nodes.find((node: any) => node.id === edge.source);
+          const targetNode = templateData.nodes.find((node: any) => node.id === edge.target);
+          
+          // Remove edges that target input nodes (input nodes should only be starting points)
+          if (targetNode && targetNode.type === 'input') {
+            console.log(`Removing problematic edge targeting input node in template: ${edge.id}`);
+            return false;
+          }
+          
+          // Remove edges that source from output nodes (output nodes should only be ending points)
+          if (sourceNode && sourceNode.type === 'output') {
+            console.log(`Removing problematic edge sourcing from output node in template: ${edge.id}`);
+            return false;
+          }
+          
+          // Remove self-referencing edges
+          if (edge.source === edge.target) {
+            console.log(`Removing self-referencing edge in template: ${edge.id}`);
+            return false;
+          }
+          
+          // Remove edges where source or target node doesn't exist
+          if (!sourceNode || !targetNode) {
+            console.log(`Removing edge with missing nodes in template: ${edge.id}`);
+            return false;
+          }
+          
+          return true;
+        });
+
         // Use intelligent arrangement with flow optimization
-        const arrangedNodes = arrangeNodesIntelligent(templateData.nodes, templateData.edges, 'flow');
+        const arrangedNodes = arrangeNodesIntelligent(templateData.nodes, cleanedEdges, 'flow');
         
         setNodes(arrangedNodes);
-        setEdges(templateData.edges);
+        setEdges(cleanedEdges);
 
-        // Save the loaded template as current flow with arranged positions
+        // Save the loaded template as current flow with arranged positions and cleaned edges
         const arrangedTemplateData = {
-          ...templateData,
-          nodes: arrangedNodes
+          nodes: arrangedNodes,
+          edges: cleanedEdges
         };
         localStorage.setItem('ai-flow', JSON.stringify(arrangedTemplateData));
         
         toast({
           title: "Template loaded",
-          description: "Template arranged with optimized layout",
+          description: "Template arranged with optimized layout and cleaned up",
         });
       }
     } catch (error) {

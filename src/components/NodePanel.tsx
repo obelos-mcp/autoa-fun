@@ -64,6 +64,42 @@ const NodePanel = ({ node, setNodes, onClose }: NodePanelProps) => {
     youtubeApiKey: "",
   });
 
+  // Wallet Analyzer-specific states
+  const [walletInputConfig, setWalletInputConfig] = useState<any>({
+    walletAddress: "",
+    blockchain: "ethereum",
+    validateAddress: true,
+  });
+
+  const [transactionFetcherConfig, setTransactionFetcherConfig] = useState<any>({
+    apiProvider: "etherscan",
+    apiKey: "",
+    transactionLimit: 1000,
+    dateRange: "last_30_days",
+    includeTokens: true,
+    includeNFTs: true,
+    includeInternalTxns: false,
+  });
+
+  const [walletAnalyticsConfig, setWalletAnalyticsConfig] = useState<any>({
+    analysisType: "comprehensive",
+    generateCharts: true,
+    includePatterns: true,
+    riskAssessment: true,
+    portfolioAnalysis: true,
+    timeframe: "all_time",
+  });
+
+  const [walletReportConfig, setWalletReportConfig] = useState<any>({
+    reportFormat: "comprehensive",
+    includeCharts: true,
+    includeTransactionList: true,
+    includeSummary: true,
+    includeAnalytics: true,
+    watermark: true,
+    fileName: "wallet_report",
+  });
+
   // Telegram-specific states
   const [telegramCondition, setTelegramCondition] = useState({
     type: "text_contains",

@@ -1,13 +1,12 @@
-
 export const initialNodes = [
   {
     id: 'system-1',
     type: 'system',
     position: { x: 250, y: 50 },
     data: {
-      label: 'System Prompt',
-      description: 'Defines AI behavior & personality',
-      content: 'You are a helpful AI assistant.',
+      label: 'AI Personality',
+      description: 'Define AI behavior',
+      content: 'You are a helpful AI assistant that provides clear and concise answers.',
     },
   },
   {
@@ -21,12 +20,26 @@ export const initialNodes = [
     },
   },
   {
-    id: 'output-1',
-    type: 'output',
+    id: 'aimodel-1',
+    type: 'aimodel',
     position: { x: 250, y: 350 },
     data: {
+      label: 'AI Processor',
+      description: 'Process with AI',
+      instructions: 'Provide a helpful and concise response to the user\'s question.',
+      provider: 'OpenAI',
+      model: 'gpt-4o-mini',
+      temperature: '0.7',
+      maxTokens: '1000',
+    },
+  },
+  {
+    id: 'output-1',
+    type: 'output',
+    position: { x: 250, y: 500 },
+    data: {
       label: 'AI Response',
-      description: 'Generate AI reply',
+      description: 'Return the result',
       outputName: 'aiResponse',
     },
   },
@@ -34,14 +47,20 @@ export const initialNodes = [
 
 export const initialEdges = [
   {
-    id: 'e1-2',
+    id: 'e1',
     source: 'system-1',
-    target: 'input-1',
+    target: 'aimodel-1',
     animated: true,
   },
   {
-    id: 'e2-3',
+    id: 'e2',
     source: 'input-1',
+    target: 'aimodel-1',
+    animated: true,
+  },
+  {
+    id: 'e3',
+    source: 'aimodel-1',
     target: 'output-1',
     animated: true,
   },

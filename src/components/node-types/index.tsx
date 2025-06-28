@@ -47,6 +47,11 @@ import MigrationNode from "./MigrationNode";
 import BackupNode from "./BackupNode";
 import SecurityScannerNode from "./SecurityScannerNode";
 import PerformanceMonitorNode from "./PerformanceMonitorNode";
+// Wallet Analyzer nodes
+import WalletInputNode from "./WalletInputNode";
+import TransactionFetcherNode from "./TransactionFetcherNode";
+import WalletAnalyticsNode from "./WalletAnalyticsNode";
+import WalletReportNode from "./WalletReportNode";
 
 const NodeTypes = {
   system: SystemNode,
@@ -98,6 +103,11 @@ const NodeTypes = {
   backup: BackupNode,
   securityscanner: SecurityScannerNode,
   performancemonitor: PerformanceMonitorNode,
+  // Wallet Analyzer nodes
+  walletinput: WalletInputNode,
+  transactionfetcher: TransactionFetcherNode,
+  walletanalytics: WalletAnalyticsNode,
+  walletreport: WalletReportNode,
 };
 
 export default NodeTypes;
