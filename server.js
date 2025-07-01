@@ -1,22 +1,61 @@
-import express from "express";
+import { createServer } from "http";
+import { readFile } from "fs/promises";
 import { fileURLToPath } from "url";
-import { dirname, join } from "path";
-import { createServer as createViteServer } from "vite";
+import { dirname, join, extname } from "path";
+import { existsSync } from "fs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve static files from the dist directory
-app.use(express.static(join(__dirname, "dist")));
+const mimeTypes = {
+  ".html": "text/html",
+  ".js": "text/javascript",
+  ".css": "text/css",
+  ".json": "application/json",
+  ".png": "image/png",
+  ".jpg": "image/jpg",
+  ".gif": "image/gif",
+  ".svg": "image/svg+xml",
+  ".ico": "image/x-icon",
+};
 
-// Handle all routes by serving index.html (for React Router)
-app.get("*", (req, res) => {
-  res.sendFile(join(__dirname, "dist", "index.html"));
+const server = createServer(async (req, res) => {
+  try {
+    let filePath = req.url === "/" ? "/index.html" : req.url;
+    filePath = join(__dirname, "dist", filePath);
+
+    if (!existsSync(filePath)) {
+      // For SPA routing, serve index.html for all routes
+      filePath = join(__dirname, "dist", "index.html");
+    }
+
+    const ext = extname(filePath);
+    const contentType = mimeTypes[ext] || "application/octet-stream";
+
+    const content = await readFile(filePath);
+
+    res.writeHead(200, { "Content-Type": contentType });
+    res.end(content);
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      // File not found, serve index.html for SPA routing
+      try {
+        const content = await readFile(join(__dirname, "dist", "index.html"));
+        res.writeHead(200, { "Content-Type": "text/html" });
+        res.end(content);
+      } catch (err) {
+        res.writeHead(500);
+        res.end("Server Error");
+      }
+    } else {
+      res.writeHead(500);
+      res.end("Server Error");
+    }
+  }
 });
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
