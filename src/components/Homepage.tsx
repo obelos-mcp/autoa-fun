@@ -271,7 +271,7 @@ const Homepage = () => {
               </Button>
               <div className="flex items-center gap-3">
                 <a
-                  href="https://t.me/autoafun"
+                  href="https://t.me/autoadotfun"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-green-400 hover:text-green-300 transition-all duration-200 hover:scale-110"
@@ -286,7 +286,7 @@ const Homepage = () => {
                   </svg>
                 </a>
                 <a
-                  href="https://x.com/autoafun"
+                  href="https://x.com/autoadotfun"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-green-400 hover:text-green-300 transition-all duration-200 hover:scale-110"
@@ -340,7 +340,7 @@ const Homepage = () => {
                 </Button>
                 <div className="flex items-center gap-4 pt-3 border-t border-green-600/20 mt-3">
                   <a
-                    href="https://t.me/autoafun"
+                    href="https://t.me/autoadotfun"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-green-400 hover:text-green-300 transition-colors flex items-center gap-2 text-sm"
@@ -355,7 +355,7 @@ const Homepage = () => {
                     Telegram
                   </a>
                   <a
-                    href="https://x.com/autoafun"
+                    href="https://x.com/autoadotfun"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-green-400 hover:text-green-300 transition-colors flex items-center gap-2 text-sm"
@@ -806,7 +806,7 @@ const Homepage = () => {
 
             <div className="flex items-center gap-6">
               <a
-                href="https://t.me/autoafun"
+                href="https://t.me/autoadotfun"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-green-400 hover:text-green-300 transition-all duration-200 hover:scale-110 flex items-center gap-2 font-medium"
@@ -821,7 +821,7 @@ const Homepage = () => {
                 Join Telegram
               </a>
               <a
-                href="https://x.com/autoafun"
+                href="https://x.com/autoadotfun"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-green-400 hover:text-green-300 transition-all duration-200 hover:scale-110 flex items-center gap-2 font-medium"
